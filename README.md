@@ -4,7 +4,7 @@
 #
 使用方法：
 
-1.在config选择是否代理及是否下载预览原图（选填，不填将使用默认配置运行）
+1.在config选择是否代理及是否下载预览原图（选填，不更改将使用默认配置运行）
 
 2.双击FC2freelist.exe→输入3，回车→等待爬虫程序爬完所需资源（速度快慢由您的网络环境决定）
 
@@ -38,4 +38,6 @@
     └───xlsx.mini.js
      
 以上！
+
+pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py
      
