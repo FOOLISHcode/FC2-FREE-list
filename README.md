@@ -30,7 +30,7 @@
 
 └js/
 
-     └───xlsx.mini.js
+    └───xlsx.mini.js
      
 以上！
      
