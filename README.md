@@ -10,11 +10,12 @@
 
 3.打开home.html→选择文件（./data/FC2_ALL.xlsx）→enjoy
 
-PS：如果对于下载预览图片经常出现下载失败，可以在data文件夹FC2_ALL.xlsx查找并修改对应num列的ispic的值改为 no，程序会在下次更新图片库是重新尝试下载
+PS：如果下载预览图片经常出现下载失败，可以在data文件夹FC2_ALL.xlsx查找并修改对应num列的ispic的值改为 no，程序会在下次更新图片库时重新尝试下载
 
 #  
 
 推荐的文件存放树：
+
 ./
 
 ├FC2freelist.exe 
