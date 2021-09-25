@@ -10,6 +10,8 @@
 
 3.打开home.html→选择文件（./data/FC2_ALL.xlsx）→enjoy
 
+PS：如果对于下载预览图片经常出现下载失败，可以在data文件夹FC2_ALL.xlsx查找并修改对应num列的ispic的值改为 no，程序会在下次更新图片库是重新尝试下载
+
 #  
 
 推荐的文件存放树：
@@ -38,6 +40,8 @@
     └───xlsx.mini.js
      
 以上！
+
+作者不对代码安全性，程序可用性做出保证，如有需要，请自行检查并修改代码，或自建环境自行编译：
 
 pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py
      
