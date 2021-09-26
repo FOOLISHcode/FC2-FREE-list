@@ -14,7 +14,7 @@ import requests
 import parsel
 import time
 import warnings
-from getnewlist import getresponse
+#from getnewlist import getresponse
 from configparser import ConfigParser
 
 def getpicresponse (isproxy,url,http_proxy,https_proxy):
@@ -40,7 +40,9 @@ def getpicresponse (isproxy,url,http_proxy,https_proxy):
                 #get(链接地址，访问头，代理端口，不检测ssl证书)
                 
         except Exception:
-            return '0'
+            i += 1
+            if i == 3:
+                return '0'
 
 def getpic():            
 
@@ -90,7 +92,7 @@ def getpic():
 
         #2.发送网络请求（获得完整html代码）
 
-        html_data = getresponse(isproxy,url,http_proxy,https_proxy).text
+        html_data = getpicresponse(isproxy,url,http_proxy,https_proxy).text
         if html_data != '0':
             print('正在处理：',url)
             #print(html_data) 用于返回状态码
