@@ -4,7 +4,7 @@
 #
 使用方法（仅适合windows环境）：
 
-1.下载FC2freelist ver1.0.zip.001和FC2freelist ver1.1.zip.002并解压缩到任意位置
+1.下载FC2freelist ver1.2.zip.001和FC2freelist ver1.2.zip.002并解压缩到任意位置
 
 2.在config.ini选择是否代理及是否下载预览原图（选填，不更改将使用默认配置运行）
 
