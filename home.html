@@ -5,6 +5,9 @@
         <title></title>
         <script src='js/xlsx.mini.js'></script>
         	
+
+    </head>
+    <body>
         <style type='text/css'>
         	img {
         		width:150px;
@@ -17,16 +20,20 @@
 				table-layout:fixed;
 				width:918pt;
         	}
-            td{
+            table.td{
                 text-align: center;
             }
-            img{
-                width: max-content;
-                height: max-content;
+            table.td.picbox{
+                width: 300px;
+                height: 250px;
+            }
+            img{ 
+                width: 300px; 
+                height: 250px; 
+                max-width: 100%; 
+                max-height: 100%;    
             }
         </style>
-    </head>
-    <body>
         <input type='file'onchange='importf(this)' />
         <div id='demo'></div>
         
@@ -90,16 +97,16 @@ formatExcelDate(43863);
 						var atable_num = "<td rowspan='3' height='57' class='x22' width='245' style='height:42.75pt;width:183.75pt;'><a href='"+data[i].magnet+"' >[复制磁链]</a></td></tr><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r1'><td height='19' style='height:14.25pt;'>番号</td><td>"+data[i].num+"</td>";
 						var atable_size = "<td>大小</td><td>"+data[i].size+"&nbsp;&nbsp;MiB</td></tr>";
 						var atable_uploadtime = "<tr height='19' style='mso-height-source:userset;height:14.25pt' id='r2'><td height='19' style='height:14.25pt;'>上传日期</td><td colspan='3'>"+formatExcelDate(data[i].uploadtime)+"</td></tr>";
-						var atable_pic1 ="<tr height='133' style='mso-height-source:userset;height:99.95pt' id='r3'><td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_1.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic2 ="<td style='text-align:center;''><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_2.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic3 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_3.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic4 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_4.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic5 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_5.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic6 ="</tr><tr height='133' style='mso-height-source:userset;height:99.95pt' id='r4'><td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_6.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic7 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_7.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic8 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_8.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic9 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_9.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic10 ="<td style='text-align:center;'><img style='max-width:240px;max-height:200px;width:auto;height:auto;'src='./pic/"+data[i].num+"_10.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td></tr></tbody></table>";
+						var atable_pic1 ="<tr height='133' style='mso-height-source:userset;height:99.95pt' id='r3'><td class='picbox'><img src='./pic/"+data[i].num+"_1.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic2 ="<td class='picbox'><img src='./pic/"+data[i].num+"_2.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic3 ="<td class='picbox'><img src='./pic/"+data[i].num+"_3.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic4 ="<td class='picbox'><img src='./pic/"+data[i].num+"_4.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic5 ="<td class='picbox'><img src='./pic/"+data[i].num+"_5.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic6 ="</tr><tr height='133' style='mso-height-source:userset;height:99.95pt' id='r4'><td class='picbox'><img src='./pic/"+data[i].num+"_6.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic7 ="<td class='picbox'><img src='./pic/"+data[i].num+"_7.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic8 ="<td class='picbox'><img src='./pic/"+data[i].num+"_8.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic9 ="<td class='picbox'><img src='./pic/"+data[i].num+"_9.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic10 ="<td class='picbox'><img src='./pic/"+data[i].num+"_10.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td></tr></tbody></table>";
  						var atable = atable_title+atable_num+atable_size+atable_uploadtime+atable_pic1+atable_pic2+atable_pic3+atable_pic4+atable_pic5+atable_pic6+atable_pic7+atable_pic8+atable_pic9+atable_pic10;
  						document.write(atable+"<br />");
                      }
