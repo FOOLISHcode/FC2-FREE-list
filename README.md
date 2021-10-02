@@ -1,4 +1,4 @@
-# FC2-FREE-list
+# FC2-FREE-list  latest version：Ver 1.2
 
 用于搜索最近已有的fc2磁链资源并形成网页列表的傻瓜式小工具，方便自行选择下载
 #
