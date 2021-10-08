@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+        <script src='js/xlsx.mini.js'></script>
+        	
+
+    </head>
+    <body>
+        <style type='text/css'>
+        	img {
+        		width:150px;
+        		height:100px;
+        	}
+        	table{
+        		border:'1px';
+				width:'1225'; 
+				border-collapse:collapse;
+				table-layout:fixed;
+				width:918pt;
+        	}
+            table.td{
+                text-align: center;
+            }
+            table.td.picbox{
+                width: 300px;
+                height: 250px;
+            }
+            img{ 
+                width: 300px; 
+                height: 250px; 
+                max-width: 100%; 
+                max-height: 100%;    
+            }
+        </style>
+        <input type='file'onchange='importf(this)' />
+        <div id='demo'></div>
+        
+        <script>
+            /*
+            FileReader共有4种读取方法：
+            1.readAsArrayBuffer(file)：将文件读取为ArrayBuffer。
+            2.readAsBinaryString(file)：将文件读取为二进制字符串
+            3.readAsDataURL(file)：将文件读取为Data URL
+            4.readAsText(file, [encoding])：将文件读取为文本，encoding缺省值为'UTF-8'
+                         */
+            var wb;//读取完成的数据
+            var rABS = false; //是否将文件读取为二进制字符串
+            var data;
+            function getnews(str){
+                if (str=="yes")
+                {
+                    return '&nbsp;&nbsp;<img src="./pic/new.png">';
+                }else{
+                    return "";
+                }
+            }
+            function formatExcelDate(numb, format = "-") {
+                const time = new Date((numb - 1) * 24 * 3600000 + 1);
+                time.setYear(time.getFullYear() - 70);
+                const year = time.getFullYear() + "";
+                const month = time.getMonth() + 1 + "";
+                const date = time.getDate() - 1 + "";
+                if (format && format.length === 1) {
+                    return year + format + month + format + date;
+                }
+                return (
+                    year + (month < 10 ? "0" + month : month) + (date < 10 ? "0" + date : date)
+                );
+            }
+
+formatExcelDate(43863);
+            function importf(obj) {//导入
+                if(!obj.files) {
+                    return;
+                }
+                var f = obj.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var data = e.target.result;
+                    if(rABS) {
+                        wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                            type: 'base64'
+                        });
+                    } else {
+                        wb = XLSX.read(data, {
+                            type: 'binary'
+                        });
+                    }
+                    //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                    //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                     data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) ;
+                     for(var i=0;i<data.length;i++){
+                         var isnews = getnews(data[i].isnews);
+                     	var atable_title = "<table border='1'><colgroup><col width='245' span='5' style='mso-width-source:userset;width:183.75pt'></colgroup><tbody><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r0'><td height='19' width='245' style='height:14.25pt;width:183.75pt;'>标题</td><td colspan='3' class='x21' width='735'>"+data[i].title+isnews+"</td>";
+						var atable_num = "<td rowspan='3' height='57' class='x22' width='245' style='height:42.75pt;width:183.75pt;'><a href='"+data[i].magnet+"' >[复制磁链]</a></td></tr><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r1'><td height='19' style='height:14.25pt;'>番号</td><td>"+data[i].num+"</td>";
+						var atable_size = "<td>大小</td><td>"+data[i].size+"&nbsp;&nbsp;MiB</td></tr>";
+						var atable_uploadtime = "<tr height='19' style='mso-height-source:userset;height:14.25pt' id='r2'><td height='19' style='height:14.25pt;'>上传日期</td><td>"+formatExcelDate(data[i].uploadtime)+"</td><td>"+data[i].author+"</td><td><a href='https://adult.contents.fc2.com/aff.php?aid="+data[i].num+"&affuid=TXpVNE5qTTBORGM9' >官网地址</a></td></tr>";
+						var atable_pic1 ="<tr height='133' style='mso-height-source:userset;height:99.95pt' id='r3'><td class='picbox'><img src='./pic/"+data[i].num+"_1.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic2 ="<td class='picbox'><img src='./pic/"+data[i].num+"_2.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic3 ="<td class='picbox'><img src='./pic/"+data[i].num+"_3.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic4 ="<td class='picbox'><img src='./pic/"+data[i].num+"_4.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+						var atable_pic5 ="<td class='picbox'><img src='./pic/"+data[i].num+"_5.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic6 ="</tr><tr height='133' style='mso-height-source:userset;height:99.95pt' id='r4'><td class='picbox'><img src='./pic/"+data[i].num+"_6.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic7 ="<td class='picbox'><img src='./pic/"+data[i].num+"_7.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic8 ="<td class='picbox'><img src='./pic/"+data[i].num+"_8.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic9 ="<td class='picbox'><img src='./pic/"+data[i].num+"_9.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+ 						var atable_pic10 ="<td class='picbox'><img src='./pic/"+data[i].num+"_10.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td></tr></tbody></table>";
+ 						var atable = atable_title+atable_num+atable_size+atable_uploadtime+atable_pic1+atable_pic2+atable_pic3+atable_pic4+atable_pic5+atable_pic6+atable_pic7+atable_pic8+atable_pic9+atable_pic10;
+ 						document.write(atable+"<br />");
+                     }
+                     
+                };
+                if(rABS) {
+                    reader.readAsArrayBuffer(f);
+                } else {
+                    reader.readAsBinaryString(f);
+                }
+            	/*for(var i=0;i<data.length;i++){
+            		document.write(data)
+            	}*/
+            }
+
+            function fixdata(data) { //文件流转BinaryString
+                var o = '',
+                    l = 0,
+                    w = 10240;
+                for(; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+                o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+                return o;
+            }
+        </script>
+    </body>
+</html>
+
+
