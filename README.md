@@ -6,19 +6,11 @@
 
 1.下载FC2freelist ver1.3.zip.001和FC2freelist ver1.3.zip.002并解压缩到任意位置
 
-![11](https://user-images.githubusercontent.com/91372008/136709972-3229ce73-e1fd-4edd-9878-77731e442f8e.jpg)
-
 2.在config.ini选择是否代理及是否下载预览原图（选填，不更改将使用默认配置运行）
-
-![22](https://user-images.githubusercontent.com/91372008/136709971-55932551-7421-4211-923f-cc4e6998e272.jpg)
 
 3.双击FC2freelist.exe→输入3，回车→等待爬虫程序爬完所需资源（速度快慢由您的网络环境决定）
 
-![2021-10-11 02-56-53 mkv_20211011_030145](https://user-images.githubusercontent.com/91372008/136709976-c7a67e1f-fbe4-4464-a07b-cbb40f166e5b.gif)
-
 4.打开home.html→选择文件（./data/FC2_ALL.xlsx）→enjoy
-
-![QQ录屏2021101103062-1 mp4_20211011_031904](https://user-images.githubusercontent.com/91372008/136710230-e72fd58a-74d3-483d-b873-0c4dd4563c59.gif)
 
 
 PS：如果下载预览图片经常出现下载失败，可以在data文件夹FC2_ALL.xlsx查找并修改对应num列的ispic的值改为 no，程序会在下次更新图片库时重新尝试下载
