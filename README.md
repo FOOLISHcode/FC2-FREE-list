@@ -1,10 +1,10 @@
-# FC2-FREE-list  latest version：Ver 1.2
+# FC2-FREE-list  latest version：Ver 1.3
 
 用于搜索最近已有的fc2磁链资源并形成网页列表的傻瓜式小工具，方便自行选择下载
 #
 使用方法（仅适合windows 10环境，win7需要自行安装环境包）：
 
-1.下载FC2freelist ver1.2.zip.001和FC2freelist ver1.2.zip.002并解压缩到任意位置
+1.下载FC2freelist ver1.3.zip.001和FC2freelist ver1.3.zip.002并解压缩到任意位置
 
 2.在config.ini选择是否代理及是否下载预览原图（选填，不更改将使用默认配置运行）
 
@@ -32,6 +32,12 @@ ver 1.2
 
 3.更新图片库时，将使用多线程下载，速度更快（后期考虑是否变为可配置项，目前将根据当前页面已有的图片数创建线程）
 
+ver 1.3
+
+1.更新图片库时同时获取当前作品的作者
+
+2.home页面显示作者信息，新增作品对应官网的跳转链接
+
 #
 
 推荐的文件存放树：
@@ -58,11 +64,10 @@ ver 1.2
 
 └js/
 
-    └───xlsx.mini.js
+┊    └───xlsx.mini.js
      
 以上！
 
-作者不对代码安全性，程序可用性做出保证，如有需要，请自行检查并修改代码，或自建环境自行编译：
+不对代码安全性，程序可用性做出保证，如有需要，请自行检查并修改代码，或自建环境自行编译：
 
-pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py
-     
+pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py -p Config.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py --hidden-import Config.py 
