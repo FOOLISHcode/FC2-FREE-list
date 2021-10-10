@@ -1,0 +1,4 @@
+1.更新图片库时同时获取当前作品的作者
+2.home页面显示作者信息，新增作品对应官网的跳转链接
+
+pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py -p Config.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py --hidden-import Config.py 
