@@ -1,0 +1,4 @@
+1. 修复无法正确识别config.ini配置的bug
+2.修复使用全局代理时报错的bug
+
+pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py -p Config.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py --hidden-import Config.py 
