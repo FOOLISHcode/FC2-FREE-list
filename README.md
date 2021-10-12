@@ -41,7 +41,7 @@ ver 1.3
 
 ver 1.4
 
-1. 修复无法正确识别config.ini配置的bug
+1.修复无法正确识别config.ini配置的bug
 
 2.修复使用全局代理时报错的bug
 
