@@ -1,10 +1,10 @@
-# FC2-FREE-list  latest version：Ver 1.4
+# FC2-FREE-list  latest version：Ver 1.5
 
 用于搜索最近已有的fc2磁链资源并形成网页列表的傻瓜式小工具，方便自行选择下载
 #
 使用方法（仅适合windows 10环境，win7需要自行安装环境包）：
 
-1.下载FC2freelist ver1.4.zip.001和FC2freelist ver1.4.zip.002并解压缩到任意位置
+1.下载FC2freelist ver1.5.zip.001和FC2freelist ver1.5.zip.002并解压缩到任意位置
 
 2.在config.ini选择是否代理及是否下载预览原图（选填，不更改将使用默认配置运行）
 
@@ -44,6 +44,12 @@ ver 1.4
 1.修复无法正确识别config.ini配置的bug
 
 2.修复使用全局代理时报错的bug
+
+ver 1.5
+
+1. 修复一些奇奇怪怪的bug
+
+2. 更新home页面的一些小逻辑问题
 
 #
 
