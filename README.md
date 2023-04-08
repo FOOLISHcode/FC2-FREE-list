@@ -1,4 +1,4 @@
-# FC2-FREE-list  latest version：Ver 1.5
+# FC2-FREE-list  latest version：Ver 1.6
 
 用于搜索最近已有的fc2磁链资源并形成网页列表的傻瓜式小工具，方便自行选择下载
 #
@@ -50,6 +50,10 @@ ver 1.5
 1.修复一些奇奇怪怪的bug
 
 2.更新home页面的一些小逻辑问题
+
+ver 1.6
+
+1.home.html做了分页，可以重复选择文件导入。防爆内存，目前每页默认50个资源。
 
 #
 
