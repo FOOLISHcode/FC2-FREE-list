@@ -9,32 +9,103 @@
     </head>
     <body>
         <style type='text/css'>
-        	img {
-        		width:150px;
-        		height:100px;
-        	}
+
+            /* 后面的提示文字颜色 */
+            [type="file"] {
+                color: rgb(255, 255, 255);
+            }
+            /* 主按钮的样式自定义 */
+            ::file-selector-button {
+                height: 3rem;
+                font-size: 1rem;
+                color: #fff;
+                border-radius: .25rem;
+                border: 1px solid #2a80eb;
+                padding: .75rem 1rem;
+                background-color: #2a80eb;
+                box-sizing: border-box;
+                font-family: inherit;
+                cursor: pointer;
+            }
+
         	table{
-        		border:'1px';
-				width:'1225'; 
+                margin-left: auto;
+                margin-right: auto;
+        		border:'1';
 				border-collapse:collapse;
-				table-layout:fixed;
-				width:918pt;
+				table-layout:fixed;	
         	}
-            table.td{
-                text-align: center;
-            }
-            table.td.picbox{
-                width: 300px;
-                height: 250px;
-            }
+
             img{ 
-                width: 300px; 
-                height: 250px; 
                 max-width: 100%; 
-                max-height: 100%;    
+                max-height: 100%;
+                transition: all 1s;    
+            }
+            /*img:hover{
+                top:50%;
+                left: 50%;
+                height: 100%;
+                width: 100%;
+            }*/
+            #nextpage{
+                text-align: center;
+                position: fixed;
+                right: 0;
+                top: 45%;
+                width: 30px;
+                height: 60px;
+                background-color: rgb(33, 33, 33);
+                opacity:0.1;
+                transition: all 0.3s;
+            }
+            #nextpage:hover{
+                opacity:0.8;
+            }
+            #lastpage {
+                text-align: center;
+                position: fixed;
+                left: 0;
+                top: 45%;
+                width: 30px;
+                height: 60px;
+                background-color: rgb(33, 33, 33);
+                opacity:0.1;
+                transition: all 0.3s;
+            }
+            #lastpage:hover {
+                opacity:0.8;
+            }
+            p{
+                color: white;
+                top: 50%;
+            }
+            .changefile{
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                /*text-align: center;*/
+                opacity: 0;
+                background-color: rgb(107, 107, 107);
+                transition: all 0.3s;
+            }
+            .changefile>*{
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 50%;
+            }
+            .changefile:hover{
+                opacity: 1;
             }
         </style>
-        <input type='file'onchange='importf(this)' />
+        <div id="select">
+            <input type='file' onchange='importf(this)' />
+        </div>
+        <div id="demo1"><button id="showdata" onclick="showdata()" hidden>显示all_data信息</button></div>
+        <div id="nextpage" onclick="gonext()" style="display: none;"><p>》</p></div>
+        <div id="lastpage" onclick="golast()" style="display: none;"><p>《</p></div>
         <div id='demo'></div>
         
         <script>
@@ -45,18 +116,20 @@
             3.readAsDataURL(file)：将文件读取为Data URL
             4.readAsText(file, [encoding])：将文件读取为文本，encoding缺省值为'UTF-8'
                          */
-            var wb;//读取完成的数据
+            var wb; //读取完成的数据
             var rABS = false; //是否将文件读取为二进制字符串
-            var data;
-            function getnews(str){
+            var all_data; //保存所有数据集
+            var nowstart=0; //保存当前起始坐标
+            function getnews(str=""){
                 if (str=="yes")
                 {
-                    return '&nbsp;&nbsp;<img src="./pic/new.png">';
+                    return '<img src="./pic/new.png">';
                 }else{
                     return "";
                 }
             }
-            function formatExcelDate(numb, format = "-") {
+
+            function formatExcelDate(numb, format = "-") {//时间转换
                 const time = new Date((numb - 1) * 24 * 3600000 + 1);
                 time.setYear(time.getFullYear() - 70);
                 const year = time.getFullYear() + "";
@@ -70,13 +143,23 @@
                 );
             }
 
-formatExcelDate(43863);
-            function importf(obj) {//导入
+            formatExcelDate(43863);//时间格式化
+            function getdata(getmydata){//转存数据
+                var mydata = getmydata;
+                return mydata;
+            }
+
+            function showdata(){//用于调试输出所有数据
+                console.log(all_data);
+            }
+
+            function importf(obj) {//导入xlsx文件并暂存至全局变量all_data中
                 if(!obj.files) {
                     return;
                 }
                 var f = obj.files[0];
                 var reader = new FileReader();
+
                 reader.onload = function(e) {
                     var data = e.target.result;
                     if(rABS) {
@@ -90,36 +173,55 @@ formatExcelDate(43863);
                     }
                     //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
                     //wb.Sheets[Sheet名]获取第一个Sheet的数据
-                     data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) ;
-                     for(var i=0;i<data.length;i++){
-                         var isnews = getnews(data[i].isnews);
-                     	var atable_title = "<table border='1'><colgroup><col width='245' span='5' style='mso-width-source:userset;width:183.75pt'></colgroup><tbody><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r0'><td height='19' width='245' style='height:14.25pt;width:183.75pt;'>标题</td><td colspan='3' class='x21' width='735'>"+data[i].title+isnews+"</td>";
-						var atable_num = "<td rowspan='3' height='57' class='x22' width='245' style='height:42.75pt;width:183.75pt;'><a href='"+data[i].magnet+"' >[复制磁链]</a></td></tr><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r1'><td height='19' style='height:14.25pt;'>番号</td><td>"+data[i].num+"</td>";
-						var atable_size = "<td>大小</td><td>"+data[i].size+"&nbsp;&nbsp;MiB</td></tr>";
-						var atable_uploadtime = "<tr height='19' style='mso-height-source:userset;height:14.25pt' id='r2'><td height='19' style='height:14.25pt;'>上传日期</td><td>"+formatExcelDate(data[i].uploadtime)+"</td><td>"+data[i].author+"</td><td><a href='https://adult.contents.fc2.com/aff.php?aid="+data[i].num+"&affuid=TXpVNE5qTTBORGM9' >官网地址</a></td></tr>";
-						var atable_pic1 ="<tr height='133' style='mso-height-source:userset;height:99.95pt' id='r3'><td class='picbox'><img src='./pic/"+data[i].num+"_1.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic2 ="<td class='picbox'><img src='./pic/"+data[i].num+"_2.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic3 ="<td class='picbox'><img src='./pic/"+data[i].num+"_3.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic4 ="<td class='picbox'><img src='./pic/"+data[i].num+"_4.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
-						var atable_pic5 ="<td class='picbox'><img src='./pic/"+data[i].num+"_5.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic6 ="</tr><tr height='133' style='mso-height-source:userset;height:99.95pt' id='r4'><td class='picbox'><img src='./pic/"+data[i].num+"_6.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic7 ="<td class='picbox'><img src='./pic/"+data[i].num+"_7.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic8 ="<td class='picbox'><img src='./pic/"+data[i].num+"_8.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic9 ="<td class='picbox'><img src='./pic/"+data[i].num+"_9.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
- 						var atable_pic10 ="<td class='picbox'><img src='./pic/"+data[i].num+"_10.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td></tr></tbody></table>";
- 						var atable = atable_title+atable_num+atable_size+atable_uploadtime+atable_pic1+atable_pic2+atable_pic3+atable_pic4+atable_pic5+atable_pic6+atable_pic7+atable_pic8+atable_pic9+atable_pic10;
- 						document.write(atable+"<br />");
-                     }
-                     
+                     data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) ; //获取选中xlsx的所有数据并转换为json数据集
+                     all_data=getdata(data);//获取json数据集为全局变量
+                     nowstart=0;
+                     showmecontent(nowstart,all_data);
+                     document.getElementById("select").className="changefile";
                 };
                 if(rABS) {
                     reader.readAsArrayBuffer(f);
                 } else {
                     reader.readAsBinaryString(f);
                 }
-            	/*for(var i=0;i<data.length;i++){
-            		document.write(data)
-            	}*/
+            }
+
+            function showmecontent(start=0,content){//输出内容到demo box
+                var atable="";//定义空表格
+                var data=content;
+                var end=0;
+                //console.log(content);
+                //console.log(data);
+                if(start+50<data.length){end=start+50;}else{end=data.length;}
+                for(var i=start;i<end;i++){
+                    try {
+                        var getisnews = getnews(data[i].isnews);
+                    } catch (error) {
+                        var getisnews = getnews("yes");
+                    }
+
+                    if(data[i].magnet=="no magnet"||data[i].magnet=="服务器拒绝访问"){magnet_data = "没有找到磁链"}
+                    else{magnet_data = "<a href='"+data[i].magnet+"' >[复制磁链]</a>"}
+                    var atable_title = "<table border='1'><colgroup><col width='245' span='5' ></colgroup><tbody><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r0'><td height='19' width='245' style='height:14.25pt;width:183.75pt;'>标题</td><td colspan='3' class='x21' width='735'>"+data[i].title+getisnews+"</td>";
+                    var atable_num = "<td rowspan='3' height='57' class='x22' width='245' style='height:42.75pt;width:183.75pt;'>"+magnet_data+"</td></tr><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r1'><td height='19' style='height:14.25pt;'>番号</td><td>"+data[i].num+"</td>";
+                    var atable_size = "<td>大小</td><td>"+data[i].size+"&nbsp;&nbsp;MiB</td></tr>";
+                    var atable_uploadtime = "<tr height='19' style='mso-height-source:userset;height:14.25pt' id='r2'><td height='19' style='height:14.25pt;'>上传日期</td><td>"+formatExcelDate(data[i].uploadtime)+"</td><td>"+data[i].author+"</td><td><a href='https://adult.contents.fc2.com/aff.php?aid="+data[i].num+"&affuid=TXpVNE5qTTBORGM9' >官网地址</a></td></tr>";
+                    var atable_pic1 ="<tr id='r3'><td class='picbox'><img src='./pic/"+data[i].num+"_1.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic2 ="<td class='picbox'><img src='./pic/"+data[i].num+"_2.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic3 ="<td class='picbox'><img src='./pic/"+data[i].num+"_3.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic4 ="<td class='picbox'><img src='./pic/"+data[i].num+"_4.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic5 ="<td class='picbox'><img src='./pic/"+data[i].num+"_5.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic6 ="</tr><tr id='r4'><td class='picbox'><img src='./pic/"+data[i].num+"_6.jpg' onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic7 ="<td class='picbox'><img src='./pic/"+data[i].num+"_7.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic8 ="<td class='picbox'><img src='./pic/"+data[i].num+"_8.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic9 ="<td class='picbox'><img src='./pic/"+data[i].num+"_9.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td>";
+                    var atable_pic10 ="<td class='picbox'><img src='./pic/"+data[i].num+"_10.jpg'  onerror=\"this.src='./pic/nodata.jpg'\"></td></tr></tbody></table>";
+                    atable = atable+atable_title+atable_num+atable_size+atable_uploadtime+atable_pic1+atable_pic2+atable_pic3+atable_pic4+atable_pic5+atable_pic6+atable_pic7+atable_pic8+atable_pic9+atable_pic10;
+                }
+                //document.getElementById("select").style.display='none';
+                document.getElementById("demo").innerHTML=atable+"<br />";
+                if(nowstart-50<0){document.getElementById("lastpage").style.display='none';}else{document.getElementById("lastpage").style.display='block';}
+                if(nowstart+50>all_data.length){document.getElementById("nextpage").style.display='none';}else{document.getElementById("nextpage").style.display='block';}
             }
 
             function fixdata(data) { //文件流转BinaryString
@@ -130,6 +232,29 @@ formatExcelDate(43863);
                 o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
                 return o;
             }
+
+            function golast(){//上一页
+                if(nowstart-50<0){
+                    nowstart=0;
+                    alert("已经是第一页");
+                    //getElementById
+                }else{
+                    nowstart=nowstart-50;
+                    showmecontent(nowstart,all_data);
+                }
+            }
+
+            function gonext(){//下一页
+                if(nowstart+50<all_data.length){
+                    nowstart=nowstart+50;
+                    showmecontent(nowstart,all_data);
+                    //getElementById
+                }else{
+                    alert("已经是最后一页");
+                }
+
+            }
+        
         </script>
     </body>
 </html>
