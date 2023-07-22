@@ -1,0 +1,4 @@
+1. 修复一些奇奇怪怪的bug
+2. 更新home页面的一些小逻辑问题
+
+pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py -p Config.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py --hidden-import Config.py 
