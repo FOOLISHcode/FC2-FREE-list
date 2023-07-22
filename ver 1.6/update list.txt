@@ -1,3 +1,0 @@
-1.home.html做了分页，可以重复选择文件导入。防爆内存，目前每页默认50个资源。
-
-pyinstaller -F FC2magnet.py -p getnewlist.py -p checklist.py -p getpic.py -p Config.py --hidden-import getnewlist.py --hidden-import checklist.py --hidden-import getpic.py --hidden-import Config.py 
