@@ -28,6 +28,11 @@
                 cursor: pointer;
             }
 
+            
+            #pagebox::-webkit-scrollbar{
+                display:none;
+            }
+
         	table{
                 margin-left: auto;
                 margin-right: auto;
@@ -36,11 +41,11 @@
 				table-layout:fixed;	
         	}
 
-            img{ 
+            /*img{ 
                 max-width: 100%; 
                 max-height: 100%;
                 transition: all 1s;    
-            }
+            }*/
             /*img:hover{
                 top:50%;
                 left: 50%;
@@ -52,8 +57,8 @@
                 position: fixed;
                 right: 0;
                 top: 45%;
-                width: 30px;
-                height: 60px;
+                width: 4%;
+                height: 16%;
                 background-color: rgb(33, 33, 33);
                 opacity:0.1;
                 transition: all 0.3s;
@@ -66,8 +71,8 @@
                 position: fixed;
                 left: 0;
                 top: 45%;
-                width: 30px;
-                height: 60px;
+                width: 4%;
+                height: 16%;
                 background-color: rgb(33, 33, 33);
                 opacity:0.1;
                 transition: all 0.3s;
@@ -88,7 +93,7 @@
                 /*text-align: center;*/
                 opacity: 0;
                 background-color: rgb(107, 107, 107);
-                transition: all 0.3s;
+                transition: all 1s;
             }
             .changefile>*{
                 position: absolute;
@@ -99,6 +104,53 @@
             .changefile:hover{
                 opacity: 1;
             }
+
+            #loading {
+                width: 100%;
+                height: 100%;
+                left: 0%;
+                top: 0%;
+                position: fixed;
+                z-index: 0;
+                background-color: #fff;
+                align-items: center;
+                justify-content:center;
+                display: none;
+                transition: all 0.3s;
+                opacity: 1;
+            }
+
+            #loadingpic{
+                width: 800px;
+                height: 600px;
+            }
+
+            #pagebox{
+                position: fixed;
+                left: 0%;
+                top:80%;
+                display: none;
+                flex-wrap: wrap;
+                height: 20%;
+                width: 15%;
+                overflow-y: scroll;
+                transition: all 0.3s;
+                opacity: 0;
+            }
+
+            #pagebox:hover{
+                opacity: 1;
+            }
+
+            .page{
+                width:30px;
+                height: 20px;
+                text-align: center;
+                border: 1px solid #000000;
+                margin: 5px;
+                
+            }
+
         </style>
         <div id="select">
             <input type='file' onchange='importf(this)' />
@@ -106,7 +158,10 @@
         <div id="demo1"><button id="showdata" onclick="showdata()" hidden>显示all_data信息</button></div>
         <div id="nextpage" onclick="gonext()" style="display: none;"><p>》</p></div>
         <div id="lastpage" onclick="golast()" style="display: none;"><p>《</p></div>
+        <a name="top"></a>
         <div id='demo'></div>
+        <div id="loading"><img id="loadingpic" src="./pic/loading.gif" ></div>
+        <div id="pagebox"></div>
         
         <script>
             /*
@@ -154,6 +209,7 @@
             }
 
             function importf(obj) {//导入xlsx文件并暂存至全局变量all_data中
+                document.getElementById("loading").style.display='flex';
                 if(!obj.files) {
                     return;
                 }
@@ -175,9 +231,10 @@
                     //wb.Sheets[Sheet名]获取第一个Sheet的数据
                      data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]) ; //获取选中xlsx的所有数据并转换为json数据集
                      all_data=getdata(data);//获取json数据集为全局变量
-                     nowstart=0;
-                     showmecontent(nowstart,all_data);
+                     showmecontent(0,all_data);
+                     document.getElementById("pagebox").style.display="flex";
                      document.getElementById("select").className="changefile";
+                     //data="";
                 };
                 if(rABS) {
                     reader.readAsArrayBuffer(f);
@@ -186,7 +243,31 @@
                 }
             }
 
+            function changepage(page){
+                let start = (page-1)*50;
+                showmecontent(start,all_data);
+            }
+
+            function updatepagebox(start,end){
+                for(let i=0;i<end;i++){
+                    if(i*50==start){
+                        var nowpage=i+1;
+                    }
+                }
+                let endpage=Math.floor(end/50)+1;
+                // console.log("nowpage="+nowpage+",endpage="+endpage);
+                let page_data = ""
+                for(let i=1;i<=endpage;i++){
+                    page_data = page_data +"<div class='page' id='page"+i+"' onclick='changepage("+i+")' style='background-color: white;'>"+i+"</div>";
+                }
+                document.getElementById("pagebox").innerHTML=page_data;
+                document.getElementById('page'+nowpage).style.backgroundColor="red";
+
+                
+            }
+
             function showmecontent(start=0,content){//输出内容到demo box
+                document.getElementById("loading").style.display='flex';
                 var atable="";//定义空表格
                 var data=content;
                 var end=0;
@@ -200,7 +281,7 @@
                         var getisnews = getnews("yes");
                     }
 
-                    if(data[i].magnet=="no magnet"||data[i].magnet=="服务器拒绝访问"){magnet_data = "没有找到磁链"}
+                    if(data[i].magnet=="no magnet"||data[i].magnet=="服务器拒绝访问"||data[i].magnet=="0&nothing"){magnet_data = "没有找到磁链"}
                     else{magnet_data = "<a href='"+data[i].magnet+"' >[复制磁链]</a>"}
                     var atable_title = "<table border='1'><colgroup><col width='245' span='5' ></colgroup><tbody><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r0'><td height='19' width='245' style='height:14.25pt;width:183.75pt;'>标题</td><td colspan='3' class='x21' width='735'>"+data[i].title+getisnews+"</td>";
                     var atable_num = "<td rowspan='3' height='57' class='x22' width='245' style='height:42.75pt;width:183.75pt;'>"+magnet_data+"</td></tr><tr height='19' style='mso-height-source:userset;height:14.25pt' id='r1'><td height='19' style='height:14.25pt;'>番号</td><td>"+data[i].num+"</td>";
@@ -220,8 +301,12 @@
                 }
                 //document.getElementById("select").style.display='none';
                 document.getElementById("demo").innerHTML=atable+"<br />";
-                if(nowstart-50<0){document.getElementById("lastpage").style.display='none';}else{document.getElementById("lastpage").style.display='block';}
-                if(nowstart+50>all_data.length){document.getElementById("nextpage").style.display='none';}else{document.getElementById("nextpage").style.display='block';}
+                nowstart = start;
+                updatepagebox(nowstart,data.length);
+                if(start-50<0){document.getElementById("lastpage").style.display='none';}else{document.getElementById("lastpage").style.display='block';}
+                if(start+50>all_data.length){document.getElementById("nextpage").style.display='none';}else{document.getElementById("nextpage").style.display='block';}
+                location.href = "#top";
+                document.getElementById("loading").style.display='none';
             }
 
             function fixdata(data) { //文件流转BinaryString
